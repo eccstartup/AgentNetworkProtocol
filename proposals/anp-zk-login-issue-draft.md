@@ -21,7 +21,7 @@ The full proposal is in this PR: [proposals/anp-zk-login-proposal.md](../proposa
 Summary of the design:
 
 - **Additive only.** It reuses the existing ANP-02 carriers (the `Signature-Input` header set, `Content-Digest`, the 401 challenge, and the §4 JSON carriage). No released document in ANP-01 through ANP-10 is modified.
-- **Opt-in and discoverable.** A relying party advertises the Profile by capability or by a 401 challenge. A relying party that does not implement it is unaffected, and a client that does not implement it keeps using DID-signature authentication.
+- **Opt-in and discoverable.** A relying party advertises the Profile by publishing a descriptor (a DID-document service entry pointing at `/.well-known/anp-zk.json`) or by a 401 challenge. The descriptor names the membership sets, the accepted proof systems, the predicate vocabulary, and the attributes the site requires. A relying party that does not implement the Profile is unaffected, and a client that does not implement it keeps using DID-signature authentication.
 - **Full request binding.** The proof's public inputs include `SHA-256` of the RFC 9421 signature base of the actual request, so a proof is valid for exactly one method, target URI, authority, body, and freshness window.
 - **Backend-agnostic.** It carries a `(scheme, statementId, vkHash)` descriptor and an opaque proof, so any proof system the relying party has registered a verification key for is accepted.
 - **One deliberate deviation.** `keyid` is not a DID URL in anonymous mode (ANP-02 L82 requires that it be one). This is the reason anonymous login cannot be an ordinary ANP-02 request.
@@ -38,7 +38,7 @@ ANP-02 以 DID 签名的 HTTP 报文认证请求，必然披露调用方的 `key
 
 An agent can log in to an opting-in service without disclosing its DID or public key. The service can rate-limit, ban, and maintain a session keyed on the pseudonym, and can optionally request attribute disclosure or a separate addressable binding when it needs them.
 
-Community feedback on the six open questions in §14 of the proposal, and a decision on where the document should live (authentication Profile beside ANP-02, a numbered document under `application/`, or an independent extension).
+Community feedback on the five open questions in §14 of the proposal, and a decision on where the document should live (authentication Profile beside ANP-02, a numbered document under `application/`, or an independent extension).
 
 ### Supporting Materials | 辅助材料
 
